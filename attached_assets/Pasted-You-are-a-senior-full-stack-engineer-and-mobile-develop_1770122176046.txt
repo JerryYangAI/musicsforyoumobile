@@ -1,0 +1,77 @@
+You are a senior full-stack engineer and mobile developer. Please build a cross-platform mobile app (iOS + Android) for the product: musicsforyou (https://www.musicsforyou.com), using React Native with Expo, hosted and developed on Replit.
+
+This app enables users to generate personalized music using AI, and optionally have the vocals sung by a cloned version of their own voice (if permissions allow). Focus on working features now, and structure the app to easily integrate OpenAI’s custom voice feature later if our organization is approved.
+
+## APP FEATURES OVERVIEW
+
+1. **Authentication**
+   - Phone number login via Firebase Auth.
+   - Optional: WeChat login (Expo plugin support permitting).
+   - Store and persist session using SecureStore.
+
+2. **Music Generation**
+   - User enters a prompt (e.g. “sad piano track for rainy night”).
+   - Select music style/mood (dropdown or tags).
+   - Select duration: 30s or 60s (consume 1 or 2 credits).
+   - Submit to backend API to generate music.
+   - Display progress: queued > generating > completed/failed.
+   - On success: show track title, cover art, audio playback, download, share.
+
+3. **Library (My Works)**
+   - Display user’s generated songs in a scrollable list.
+   - Each track: cover, title, date, play button, share/download.
+   - Share button opens public URL (if available).
+   - Download saves MP3 locally via Expo FileSystem.
+
+4. **Voice Feature (Pre-built, Pending OpenAI Access)**
+   - Allow user to record voice + read aloud consent phrase.
+   - Upload audio sample and transcript to backend.
+   - Backend stores audio or (if OpenAI access granted) sends to `/v1/audio/voice` to create custom voice.
+   - If `voice_id` exists, use it in music generation requests to enable personal vocal output.
+   - For now, simulate this flow with placeholders. Clearly mark in code where real OpenAI call will be used.
+
+5. **Credits + Payment**
+   - Always show user’s available credits.
+   - Indicate how many credits generation will cost.
+   - If not enough credits, prompt user to "Buy Credits".
+   - Open external payment link (e.g., Stripe Checkout or website purchase page).
+
+6. **Permissions & UX**
+   - Request and handle mic permission for recording.
+   - Handle offline state gracefully.
+   - Animate waveform during recording and playback.
+   - Support dark mode UI with vibrant music-themed design.
+
+7. **Architecture**
+   - Use React Navigation for screen routing.
+   - Use Expo AV for audio recording and playback.
+   - All API keys (OpenAI, Firebase, etc.) handled via backend. Client must not expose secrets.
+   - Backend endpoints to call:
+     - `/generate` — music generation
+     - `/my-songs` — list past tracks
+     - `/uploadVoiceSample` — upload audio sample
+     - `/createCustomVoice` — (future use, currently stubbed)
+     - `/user/profile` — get voice_id and credit info
+
+8. **Compliance & Future-proofing**
+   - OpenAI’s custom voice cloning API requires approval.
+   - You must implement voice flow to comply with OpenAI’s requirements:
+     - User records and speaks exact consent phrase aloud (shown on screen).
+     - Audio recording is under 30 seconds.
+     - Backend ensures user explicitly agrees to usage and privacy terms.
+   - Mark all OpenAI-related TODOs and stubs clearly so they can be activated once access is granted.
+
+9. **Testing & Delivery**
+   - Develop in Replit using Expo.
+   - Provide Expo QR code for testing.
+   - Include README with setup instructions, dependencies, API placeholders, and known limitations.
+
+10. **Code Style**
+    - Use TypeScript.
+    - Keep components modular.
+    - Add inline comments especially for areas involving voice feature, audio recording, and state transitions.
+
+Now begin building the app according to this specification. First scan the backend API integration points and list the main screens and files you will create. Then implement each major feature step by step. Prioritize:
+1. Auth + Prompt Input → Generation Flow → Playback
+2. My Works screen
+3. Voice feature (record + upload) with placeholder
